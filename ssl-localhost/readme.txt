@@ -1,0 +1,1 @@
+Follow the procedure detailed in https://github.com/darbyluv2code/fullstack-angular-and-springboot/blob/master/bonus-content/secure-https-communication/openssl-setup.md to generate key and self-signed certificate.

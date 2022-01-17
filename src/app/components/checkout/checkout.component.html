@@ -1,0 +1,200 @@
+<div class="main-content page-m">
+
+    <!-- TODO: setup autofill
+        https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill
+    -->
+
+    <div class="section-content section-content-p30">
+        <div class="container-fluid">
+            <form [formGroup]="checkoutFormGroup" (ngSubmit)="onSubmit()">
+                <!-- customer form group -->
+                <div formGroupName="customer" class="form-area">
+                    <div>
+                        <div width="50%"><h3>Customer</h3></div>                        
+                        <div width="50%">
+                            <button type="button" class="btn btn-primary" (click)="fillUserDetails()"><i class="fas fa-user"></i></button>
+                        </div>                        
+                    </div>
+                    <div class="row" *ngFor="let item of customerSettings">
+                        <div class="col-md-3">
+                            <label>{{item.label}}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <input formControlName="{{item.ctrlName}}" type="{{item.type}}" placeholder="{{item.placeholder}}"/>
+                                <div *ngIf="item.accessor()?.invalid && (item.accessor()?.dirty || item.accessor()?.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="item.accessor()?.errors?.required || item.accessor()?.errors?.notOnlyWhitespace">
+                                        {{item.label}} is required
+                                    </div>
+                                    <div *ngIf="item.accessor()?.errors?.minlength">
+                                        {{item.label}} must be at least {{item.min}} characters
+                                    </div>
+                                    <div *ngIf="item.accessor()?.errors?.pattern">
+                                        {{item.label}} must be a valid email address format
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- shipping address form group -->
+                <div formGroupName="shippingAddress" class="form-area">
+                    <h3>Shipping Address</h3>
+
+                    <div class="row" *ngFor="let item of shippingSettings">
+                        <div class="col-md-3">
+                            <label>{{item.label}}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="input-space" [ngSwitch]="item.ctrlName">
+                                <div *ngSwitchCase="'state'">
+                                    <select formControlName="{{item.ctrlName}}">
+                                        <option *ngFor="let subdivision of shippingSubdivisions" [ngValue]="subdivision">
+                                            {{subdivision.name}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="item.accessor()?.invalid && (item.accessor()?.dirty || item.accessor()?.touched)"
+                                        class="alert alert-danger">
+                                        <div *ngIf="item.accessor()?.errors?.required || item.accessor()?.errors?.notInvalidId">
+                                            {{item.label}} is required
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div *ngSwitchCase="'country'">
+                                    <select formControlName="{{item.ctrlName}}" (change)="getSubdivisions('shippingAddress')">
+                                        <option *ngFor="let country of countries" [ngValue]="country">
+                                            {{country.name}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="item.accessor()?.invalid && (item.accessor()?.dirty || item.accessor()?.touched)"
+                                        class="alert alert-danger">
+                                        <div *ngIf="item.accessor()?.errors?.required || item.accessor()?.errors?.notInvalidId">
+                                            {{item.label}} is required
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div *ngSwitchDefault>
+                                    <input formControlName="{{item.ctrlName}}" type="{{item.type}}" placeholder="{{item.placeholder}}"/>
+                                    <div *ngIf="item.accessor()?.invalid && (item.accessor()?.dirty || item.accessor()?.touched)"
+                                        class="alert alert-danger">
+                                        <div *ngIf="item.accessor()?.errors?.required || item.accessor()?.errors?.notOnlyWhitespace">
+                                            {{item.label}} is required
+                                        </div>
+                                        <div *ngIf="item.accessor()?.errors?.minlength">
+                                            {{item.label}} must be at least {{item.min}} characters
+                                        </div>
+                                        <div *ngIf="item.accessor()?.errors?.pattern">
+                                            {{item.label}} must be a valid email address format
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- billing/shipping address -->
+                <div class="input-space">
+                    <label class="au-checkbox">
+                        <input type="checkbox" (change)="shippingBillingChange($any($event.target).checked)"/>
+                        <span class="au-checkmark"></span>Billing address same as shipping
+                    </label>
+                </div>
+
+                <!-- billing address form group -->
+                <div formGroupName="billingAddress" *ngIf="!shippingIsBilling"  class="form-area">
+                    <h3>Billing Address</h3>
+
+                    <div class="row" *ngFor="let item of billingSettings">
+                        <div class="col-md-3">
+                            <label>{{item.label}}</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="input-space" [ngSwitch]="item.ctrlName">
+                                <div *ngSwitchCase="'state'">
+                                    <select formControlName="{{item.ctrlName}}">
+                                        <option *ngFor="let subdivision of billingSubdivisions" [ngValue]="subdivision">
+                                            {{subdivision.name}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="item.accessor()?.invalid && (item.accessor()?.dirty || item.accessor()?.touched)"
+                                        class="alert alert-danger">
+                                        <div *ngIf="item.accessor()?.errors?.required || item.accessor()?.errors?.notInvalidId">
+                                            {{item.label}} is required
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div *ngSwitchCase="'country'">
+                                    <select formControlName="{{item.ctrlName}}" (change)="getSubdivisions('billingAddress')">
+                                        <option *ngFor="let country of countries" [ngValue]="country">
+                                            {{country.name}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="item.accessor()?.invalid && (item.accessor()?.dirty || item.accessor()?.touched)"
+                                        class="alert alert-danger">
+                                        <div *ngIf="item.accessor()?.errors?.required || item.accessor()?.errors?.notInvalidId">
+                                            {{item.label}} is required
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div *ngSwitchDefault>
+                                    <input formControlName="{{item.ctrlName}}" type="{{item.type}}" placeholder="{{item.placeholder}}"/>
+                                    <div *ngIf="item.accessor()?.invalid && (item.accessor()?.dirty || item.accessor()?.touched)"
+                                        class="alert alert-danger">
+                                        <div *ngIf="item.accessor()?.errors?.required || item.accessor()?.errors?.notOnlyWhitespace">
+                                            {{item.label}} is required
+                                        </div>
+                                        <div *ngIf="item.accessor()?.errors?.minlength">
+                                            {{item.label}} must be at least {{item.min}} characters
+                                        </div>
+                                        <div *ngIf="item.accessor()?.errors?.pattern">
+                                            {{item.label}} must be a valid email address format
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- card info form group -->
+                <div formGroupName="cardInfo" class="form-area">
+
+                    <h3>Card Information</h3>
+
+                    <!-- Stripe elements -->
+                    <div id="card-element">
+                        <!-- stripe element inserted here-->
+                    </div>
+
+                    <!-- display form errors -->
+                    <div id="card-errors" class="displayError.textContent !== '' : 'alert alert-danger mt-1'"></div>
+
+                </div>
+
+                <!-- order review -->
+                <div class="form-area">
+                    <h3>Review your order</h3>
+
+                    <p>Total quantity: {{cartSummary.totalQuantity}}</p>
+                    <p>Total price: {{cartSummary.totalPrice | currency:currencyCode}}</p>
+                </div>
+
+                <!-- submit button -->
+                <div class="text-center">
+                    <button id="purchase_button" type="submit" class="btn btn-primary" [disabled]="isDisabled">
+                        <span id="button-text">Purchase</span>                        
+                    </button>
+                    <button type="reset" class="btn btn-secondary">Clear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
