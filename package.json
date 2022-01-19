@@ -8,7 +8,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "heroku-prebuild": "node config.js",
+    "prebuild": "node config.js",
+    "heroku-prebuild": "echo This runs before Heroku installs dependencies.",
     "heroku-postbuild": "ng build --prod",
     "heroku-cleanup": "echo This runs after Heroku prunes and caches dependencies."
   },
