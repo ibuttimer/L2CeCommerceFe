@@ -8,14 +8,15 @@ export default {
     app: {
         // set to 'local' or 'session'
         storage: "local",
+        // set to host address
         host: "<address of host>",
+        // set to host port
         port: "<host port>",
-        // set to 'http' or 'https'
-        protocol: "https"
-
+        // set to host protocol; 'http' or 'https'
+        protocol: "<host protocol>"
     },
     stripe: {
         // set Publishable key from Stripe API keys
-        publishableKey: "<Publishable key from Stripe API keys>"    
+        publishableKey: "<Publishable key from Stripe API keys>"
     }
 }
