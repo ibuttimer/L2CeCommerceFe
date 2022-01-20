@@ -24,7 +24,7 @@ const options = {
     process.env.HOST_ADDR,
     process.env.HOST_PORT,
     process.env.HOST_PROTOCOL,
-    process.env.STRIPE_API_KEY,
+    process.env.STRIPE_API_KEY
     ],
 };
 

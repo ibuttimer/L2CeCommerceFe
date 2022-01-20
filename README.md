@@ -88,6 +88,7 @@ Set the following environmental variables:
 | DEBUG          | Log output to enable, e.g. `app,express:*` will enable all server related output.<br/> See [Debugging Express](https://expressjs.com/en/guide/debugging.html) and [debug](https://www.npmjs.com/package/debug). |  |
 | DOMAIN         | Domain application is running in, e.g. `l2cecommercefe.herokuapp.com` or `localhost`. |  |
 | PORT           | Port to serve application from in Heroku. Default `8080` |  |
+| ALLOWED_ORIGINS | Allowed origins for CORS configuration. Comma-separated list of domains, e.g. `https://dev-account.okta.com,https://backend.herokuapp.com` |  |
 | SSL_ENABLED    | Set to ``true`` to enable TLS/SSL, otherwise ``false``. Default ``true``. |  |
 | SSL_CRT        | Location of the Security Certificate generated in [Generate key and self-signed certificate](#generate-key-and-self-signed-certificate) relative to the project root. E.g. `"./ssl-localhost/localhost.crt"` |  |
 | SSL_KEY        | Location of the Private key generated in [Generate key and self-signed certificate](#generate-key-and-self-signed-certificate) relative to the project root. E.g. `"./ssl-localhost/localhost.key"` |  |

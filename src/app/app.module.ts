@@ -95,13 +95,16 @@ const routes: Routes = [
     FormService,
     { 
       provide: OKTA_CONFIG, 
-      // useValue: oktaConfig
       useFactory: () => {
         const oktaAuth = new OktaAuth(appConfig.oidc);
         return { oktaAuth };
       } 
     },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
+    { 
+      provide: HTTP_INTERCEPTORS, 
+      useClass: AuthInterceptorService, 
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
