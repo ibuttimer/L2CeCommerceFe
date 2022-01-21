@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import debug from 'debug';
 import https from 'https'
 import fs from 'fs'
+import cors from 'cors';
 
 
 const log = debug('app');
@@ -53,23 +54,26 @@ log('serving from %s', dist_dir);
 // min suggested by http://expressjs.com/en/advanced/best-practice-security.html#use-tls
 app.disable('x-powered-by');
 
-// CORS on ExpressJS http://enable-cors.org/server_expressjs.html
-// also http://stackoverflow.com/questions/32500073/request-header-field-access-control-allow-headers-is-not-allowed-by-itself-in-pr
-app.use(function(req, res, next) {
-    var origin = req.headers.origin;
+// enable CORS
+var corsOptions = {
+  origin: function (origin, callback) {
     var ok = (allowedOrigins.indexOf(origin) > -1);
 
+    log('cors %s %o', origin, ok);
+
     if (ok) {
-      res.header('Access-Control-Allow-Origin', origin);
-      res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
-      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
     }
-    app.disable('cors %s %o', origin, ok);
+  },
+  methods: 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+  allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization'
+}
 
-    next();
-  });
+app.options('*', cors()) // enable pre-flight across-the-board, include before other routes
 
-app.get('/*', function(req, res) {
+app.get('/*', cors(corsOptions), function(req, res) {
     res.sendFile('index.html', { root: dist_dir });
 });
 
