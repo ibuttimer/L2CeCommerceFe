@@ -55,5 +55,10 @@
     "node": "14.x",
     "npm": "7.x"
   },
-  "type": "module"
+  "type": "module",
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "maintained node versions"
+  ]
 }

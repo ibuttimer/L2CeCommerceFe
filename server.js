@@ -71,6 +71,7 @@ var corsOptions = {
     origin: '*',
     methods: 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
     allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization',
+    preflightContinue: true,
     credentials: true
 };
 
