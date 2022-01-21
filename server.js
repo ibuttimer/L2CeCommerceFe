@@ -70,12 +70,8 @@ var corsOptions = {
     //   },
     origin: '*',
     methods: 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-    allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization',
-    preflightContinue: true,
-    credentials: true
+    allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization'
 };
-
-app.options('*', cors()); // enable pre-flight across-the-board, include before other routes
 
 app.get('/*', cors(corsOptions), function(req, res) {
     res.sendFile('index.html', { root: dist_dir });
