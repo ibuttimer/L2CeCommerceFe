@@ -57,11 +57,15 @@ app.disable('x-powered-by');
 // also http://stackoverflow.com/questions/32500073/request-header-field-access-control-allow-headers-is-not-allowed-by-itself-in-pr
 app.use(function(req, res, next) {
     var origin = req.headers.origin;
-    if (allowedOrigins.indexOf(origin) > -1){
+    var ok = (allowedOrigins.indexOf(origin) > -1);
+
+    if (ok) {
       res.header('Access-Control-Allow-Origin', origin);
       res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
       res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     }
+    app.disable('cors %s %o', origin, ok);
+
     next();
   });
 
