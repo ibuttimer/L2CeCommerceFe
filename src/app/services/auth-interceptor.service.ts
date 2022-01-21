@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpRequest, HttpInterceptor } from '@angular/common/http';
 import { OktaAuth } from '@okta/okta-auth-js';
+import { OKTA_AUTH } from '@okta/okta-angular';
 import { from, Observable } from 'rxjs'
 import { OrderHistoryService } from './order-history.service';
 
@@ -10,7 +11,7 @@ import { OrderHistoryService } from './order-history.service';
 export class AuthInterceptorService implements HttpInterceptor {
 
   constructor(
-    private oktaAuth: OktaAuth,
+    @Inject(OKTA_AUTH) private oktaAuth: OktaAuth,
     private orderHistoryService: OrderHistoryService
   ) { }
 

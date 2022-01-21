@@ -1,5 +1,6 @@
-import { ApplicationInitStatus, Injectable } from '@angular/core';
+import { ApplicationInitStatus, Inject, Injectable } from '@angular/core';
 import { OktaAuth } from '@okta/okta-auth-js';
+import { OKTA_AUTH } from '@okta/okta-angular';
 import { OktaAuthStateService } from '@okta/okta-angular';
 import { BehaviorSubject } from 'rxjs';
 import { AuthenticationStatus } from '../common/authentication-status';
@@ -14,7 +15,7 @@ export class AuthenticationService {
 
   constructor(
     private authStateService: OktaAuthStateService,
-    private oktaAuthService: OktaAuth,
+    @Inject(OKTA_AUTH) private oktaAuthService: OktaAuth,
     private appInit: ApplicationInitStatus
   ) {
     this.wipStatus = AuthenticationStatus.LOGGED_OUT_STATUS;
