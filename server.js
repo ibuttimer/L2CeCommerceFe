@@ -51,9 +51,6 @@ log('config: ssl=%o crt=%s key=%s', sslEnabled, sslCrt, sslKey);
 app.use(express.static(dist_dir));
 log('serving from %s', dist_dir);
 
-// min suggested by http://expressjs.com/en/advanced/best-practice-security.html#use-tls
-app.disable('x-powered-by');
-
 // enable CORS
 var corsOptions = {
     /* Dynamic origin config as per https://www.npmjs.com/package/cors#configuring-cors-w-dynamic-origin.
@@ -73,14 +70,18 @@ var corsOptions = {
     //   },
     origin: '*',
     methods: 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-    allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization'
-}
+    allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization',
+    credentials: true
+};
 
-app.options('*', cors()) // enable pre-flight across-the-board, include before other routes
+app.options('*', cors()); // enable pre-flight across-the-board, include before other routes
 
 app.get('/*', cors(corsOptions), function(req, res) {
     res.sendFile('index.html', { root: dist_dir });
 });
+
+// min suggested by http://expressjs.com/en/advanced/best-practice-security.html#use-tls
+app.disable('x-powered-by');
 
 // Start the app
 if (sslEnabled) {
