@@ -39,7 +39,7 @@ let heroku = (domain.indexOf('heroku') >= 0);
 
 const port = process.env.PORT || "8080";  // configured port or the default Heroku port
 const allowedOrigins = (process.env.ALLOWED_ORIGINS || '').split(",");
-let sslEnabled = String(process.env.SSL_ENABLED || 'true') == 'true';
+const sslEnabled = String(process.env.SSL_ENABLED || 'true') == 'true';
 const sslCrt = process.env.SSL_CRT || 'security certificate not specified';
 const sslKey = process.env.SSL_KEY || 'private key not specified';
 
@@ -56,19 +56,24 @@ app.disable('x-powered-by');
 
 // enable CORS
 var corsOptions = {
-  origin: function (origin, callback) {
-    var ok = (allowedOrigins.indexOf(origin) > -1);
-
-    log('cors %s %o', origin, ok);
-
-    if (ok) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
-  methods: 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-  allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization'
+    /* Dynamic origin config as per https://www.npmjs.com/package/cors#configuring-cors-w-dynamic-origin.
+       The value passed as 'origin' is 'request.headers.origin' and this may be null in an number of cases
+       (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin), so allow all for now.
+     */ 
+    // origin: function (origin, callback) {
+    //     var ok = (allowedOrigins.indexOf(origin) > -1);
+    
+    //     log('cors %s %o', origin, ok);
+    
+    //     if (ok) {
+    //       callback(null, true)
+    //     } else {
+    //       callback(new Error('Not allowed by CORS'))
+    //     }
+    //   },
+    origin: '*',
+    methods: 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+    allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization'
 }
 
 app.options('*', cors()) // enable pre-flight across-the-board, include before other routes
