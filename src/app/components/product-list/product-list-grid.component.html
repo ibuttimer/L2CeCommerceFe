@@ -5,18 +5,25 @@
             <div class="row">
                 <!-- loop over the collection of products -->
                 <div *ngFor="let prod of products" class="col-md-3">
-                    <div class="product-box">
+                    <div class="product-box  text-center">
                         <a routerLink="/products/{{prod.id}}">
                             <img src="{{prod.imageUrl}}" class="img-responsive"/>
                         </a>
                         <a routerLink="/products/{{prod.id}}">
                             <h1>{{prod.name}}</h1>
                         </a>
-                        <div>{{prod.unitPrice | currency:currencyCode}}&nbsp;&nbsp;<span class="badge bg-info">{{prod.unitsInStock}}</span></div>
+                        <div class="row col-md-12 pb-1">
+                            <div class="col-md-6">
+                                {{prod.unitPrice | currency:currencyCode}}
+                            </div>
+                            <div class="col-md-6">
+                                <div *ngIf="prod.unitsInStock>0"><span class="badge bg-info">{{prod.unitsInStock}}</span></div>
+                                <div *ngIf="prod.unitsInStock<=0"><span class="badge bg-danger">Out of stock</span></div>
+                            </div>
+                        </div>
                         <button *ngIf="prod.unitsInStock>0" class="btn btn-primary btn-sm" (click)="addToCart(prod)">
                             Add to cart
                         </button>
-                        <div *ngIf="prod.unitsInStock<=0" ><span class="badge bg-danger">Out of stock</span></div>
                     </div>
                 </div>                
                 <!-- display message if no products -->

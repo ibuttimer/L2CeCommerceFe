@@ -2,8 +2,16 @@
     <div class="container-fluid">
         <img src="{{product.imageUrl}}" class="detail-img"/>
         <h3>{{product.name}}</h3>
-        <div class="price">{{product.unitPrice | currency:currencyCode}}</div>
-        <button class="btn btn-primary btn-sm" (click)="addToCart()">
+        <div class="row col-md-12 pb-1">
+            <div class="col-md-2">
+                <div class="price">{{product.unitPrice | currency:currencyCode}}</div>
+            </div>
+            <div class="col-md-2" style="margin-top: 15px;">
+                <div *ngIf="product.unitsInStock>0"><span class="badge bg-info">{{product.unitsInStock}}</span></div>
+                <div *ngIf="product.unitsInStock<=0"><span class="badge bg-danger">Out of stock</span></div>
+            </div>
+        </div>
+        <button *ngIf="product.unitsInStock>0" class="btn btn-primary btn-sm" (click)="addToCart()">
             Add to cart
         </button>
         <hr>

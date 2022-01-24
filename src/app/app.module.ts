@@ -14,18 +14,20 @@ import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { CartStatusComponent } from './components/cart-status/cart-status.component';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormService } from './services/form.service';
+import { MembersPageComponent } from './components/members-page/members-page.component';
+import { OrderHistoryComponent } from './components/order-history/order-history.component';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { AboutComponent } from './components/about/about.component';
+import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { LoginStatusComponent } from './components/login-status/login-status.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormService } from './services/form.service';
 import { OKTA_CONFIG, OktaAuthModule, OktaCallbackComponent, OktaAuthGuard } from '@okta/okta-angular';
 import { OktaAuth } from '@okta/okta-auth-js';
 import { OKTA_AUTH } from '@okta/okta-angular';
 
 import appConfig from './config/app-config';
-import { MembersPageComponent } from './components/members-page/members-page.component';
-import { OrderHistoryComponent } from './components/order-history/order-history.component';
-import { AuthInterceptorService } from './services/auth-interceptor.service';
 
 export const CATEGORY_ROUTE = 'category';
 export const ID_PARAM = 'id';
@@ -43,6 +45,8 @@ export const LOGOUT_ROUTE = 'logout';
 export const CALLBACK_ROUTE = `${LOGIN_ROUTE}/callback`;
 export const MEMBERS_ROUTE = 'members';
 export const ORDERS_ROUTE = 'orders';
+export const ABOUT_ROUTE = 'about';
+export const HOME_ROUTE = '';
 
 
 export function appRouteUrl(path: string): string {
@@ -62,8 +66,10 @@ const routes: Routes = [
   {path: PRODUCTS_ROUTE, component: ProductListComponent},
   {path: CART_DETAILS_ROUTE, component: CartDetailsComponent},
   {path: CHECKOUT_ROUTE, component: CheckoutComponent},
-  {path: '', redirectTo: PRODUCTS_ROUTE, pathMatch: 'full'},
-  {path: '**', redirectTo: PRODUCTS_ROUTE, pathMatch: 'full'},
+  {path: ABOUT_ROUTE, component: AboutComponent},
+  {path: HOME_ROUTE, component: HomeComponent},
+  // {path: '', redirectTo: HOME_ROUTE, pathMatch: 'full'},
+  {path: '**', redirectTo: HOME_ROUTE, pathMatch: 'full'},
 ];
 
 
@@ -80,7 +86,8 @@ const routes: Routes = [
     LoginComponent,
     LoginStatusComponent,
     MembersPageComponent,
-    OrderHistoryComponent
+    OrderHistoryComponent,
+    AboutComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

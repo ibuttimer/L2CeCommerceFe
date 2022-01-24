@@ -7,7 +7,7 @@ It is a full stack E-commerce application with:
 * product catalog
 * shopping cart
 * checkout
-* Stripe card payments
+* card payments
 * JWT, OAuth2, OpenID Connect and SSL/TLS
 
 
@@ -15,9 +15,9 @@ The companion backend is available at [L2CEcommerceBe](https://github.com/ibutti
 
 ## Tech stack
 The application consists of:
-* [Spring Boot](https://spring.io/projects/spring-boot) application with
+* [Spring Boot](https://spring.io/projects/spring-boot) application with:
   * [Spring Data JPA](https://spring.io/projects/spring-data-jpa) providing REST APIs
-  * [Stripe Credit Card Payments](https://stripe.com/) for card payment processing
+  * [Stripe](https://stripe.com/) for card payment processing
   * JWT, oauth2, OpenID Connect provided by [okta](https://www.okta.com/)
 * Database supported:
   * [MySQL](https://www.mysql.com/)
@@ -29,6 +29,11 @@ The application consists of:
 On Heroku the application is deployed in a [Node.js](https://nodejs.org/) environment, and includes a minimalist [Express](https://expressjs.com/) server loosely based on [How to Deploy Angular Application to Heroku](https://itnext.io/how-to-deploy-angular-application-to-heroku-1d56e09c5147)
 
 
+### Demonstation
+
+A demonstation implementation is hosted on Heroku at https://l2cecommercefe.herokuapp.com/.
+
+> **Note:** This application is not a retail site, *do not enter* valid payment card or personal details. Please use [Stripe test card numbers](https://stripe.com/docs/testing#cards).
 
 ## Development
 
@@ -47,6 +52,8 @@ Register for an okta developer account if necessary and create an okta applicati
 
   Single Page App (SPA)
 
+**Note:** Ensure the client domain is added to the list of `Trusted Origins` for the developer account
+[Security -> API -> Trusted Origins](https://dev-07906454-admin.okta.com/admin/access/api/trusted_origins).
 
 #### Generate key and self-signed certificate
 

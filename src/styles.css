@@ -124,7 +124,7 @@ a.disabled {
 
 .main-content{
     padding-top:116px;
-    min-height:100vh
+    min-height:80vh
 }
 
 aside.menu-sidebar.d-none.d-lg-block.clr{
@@ -363,9 +363,9 @@ input.au-input.au-input-xl{
 
 .menu-sidebar-content{
     position:relative;
-    height:-webkit-calc(100vh - 75px);
-    height:-moz-calc(100vh - 75px);
-    height:calc(100vh - 75px)
+    height:-webkit-calc(80vh - 75px);
+    height:-moz-calc(80vh - 75px);
+    height:calc(80vh - 75px)
 }
 
 .navbar-sidebar{
