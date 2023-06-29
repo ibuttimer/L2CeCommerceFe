@@ -9,6 +9,7 @@
 
 # dependencies
 /node_modules
+/.angular/
 
 # profiling files
 chrome-profiler-events*.json
@@ -31,6 +32,7 @@ chrome-profiler-events*.json
 .history/*
 .browserslistrc*
 .editorconfig
+/.vscode/
 
 # misc
 /.sass-cache
@@ -50,4 +52,3 @@ Thumbs.db
 src/app/config/app-config.ts
 ssl-localhost/localhost.crt
 ssl-localhost/localhost.key
-.vscode/*

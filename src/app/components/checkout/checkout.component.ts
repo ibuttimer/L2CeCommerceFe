@@ -1,6 +1,5 @@
-import { NullTemplateVisitor } from '@angular/compiler';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CartSummary } from 'src/app/common/cart-summary';
 import { AppConstants } from 'src/app/common/constants';
 import { Country } from 'src/app/common/country';
@@ -8,9 +7,8 @@ import { Subdivision } from 'src/app/common/subdivision';
 import { AccessorFunction, InputItem } from 'src/app/common/input-item';
 import { CartService } from 'src/app/services/cart.service';
 import { CountryService } from 'src/app/services/country.service';
-import { FormService, JANUARY, MonthNum } from 'src/app/services/form.service';
+import { FormService } from 'src/app/services/form.service';
 import { SubdivisionService } from 'src/app/services/subdivision.service';
-import { ValidatorList } from 'src/app/validators/custom-validators';
 import { CheckoutService } from 'src/app/services/checkout.service';
 import { Router } from '@angular/router';
 import { Order } from 'src/app/common/order';
@@ -24,6 +22,7 @@ import { AuthenticationStatus } from 'src/app/common/authentication-status';
 
 import appConfig from '../../config/app-config';
 import { PaymentInfo } from 'src/app/common/payment-info';
+import {noop} from "rxjs";
 
 @Component({
   selector: 'app-checkout',
@@ -51,7 +50,7 @@ export class CheckoutComponent implements OnInit {
   private static readonly ADDRESS_FGNS = [
     CheckoutComponent.SHIPPING_ADDR_FGN, CheckoutComponent.BILLING_ADDR_FGN
   ]
-  
+
   // Input item definitions
   private firstNameII: InputItem = InputItem.text("First Name", CheckoutComponent.FIRST_NAME_FGN, "Enter first name")
                             .setRequired(true)
@@ -84,7 +83,7 @@ export class CheckoutComponent implements OnInit {
                             .setRequired(true)
                             .setMinLength(1)
                             .setAccessor(() => { return this.billingZipcode});
-                      
+
   checkoutFormGroup!: FormGroup;
   countries: Country[] = [CheckoutComponent.NO_COUNTRY];     // list of countries
   shippingSubdivisions: Subdivision[] = [CheckoutComponent.NO_SUBDIVISION];     // list of subdivisions for shipping address
@@ -141,7 +140,7 @@ export class CheckoutComponent implements OnInit {
     });
 
     this.setupStripePaymentForm();
-    
+
     this.setSelectCountry();
     this.setSelectSubdivisions();
 
@@ -170,9 +169,9 @@ export class CheckoutComponent implements OnInit {
 
       this.displayCardError = document.getElementById('card-errors');
       if (this.displayCardError != null) {
-        if (event.complete) { 
+        if (event.complete) {
           this.displayCardError.textContent = '';
-        } else if (event.error) { 
+        } else if (event.error) {
           this.displayCardError.textContent = event.error.message;
         }
       }
@@ -226,9 +225,9 @@ export class CheckoutComponent implements OnInit {
 
   /**
    * Set value of form group element to initial value in specified list
-   * @param formGroupName 
-   * @param elementName 
-   * @param list 
+   * @param formGroupName
+   * @param elementName
+   * @param list
    */
   setFormGroupList(formGroupName: string, elementName: string, list: any[]) {
     this.checkoutFormGroup.get(formGroupName)?.get(elementName)?.setValue(list[0]);
@@ -307,7 +306,7 @@ export class CheckoutComponent implements OnInit {
 
   /**
    * Update billing/shipping address is the same flag
-   * @param sameAddr 
+   * @param sameAddr
    */
   shippingBillingChange(sameAddr: boolean) {
     if (sameAddr) {
@@ -452,8 +451,8 @@ export class CheckoutComponent implements OnInit {
 
     if (!this.checkoutFormGroup.invalid && this.displayCardError?.textContent === '') {
 
-      [CheckoutComponent.CUSTOMER_FGN, 
-        CheckoutComponent.SHIPPING_ADDR_FGN, 
+      [CheckoutComponent.CUSTOMER_FGN,
+        CheckoutComponent.SHIPPING_ADDR_FGN,
         CheckoutComponent.BILLING_ADDR_FGN].forEach(element => {
           console.log(`${element}: `);
           console.log(this.checkoutFormGroup.get(element)?.value);
@@ -478,7 +477,7 @@ export class CheckoutComponent implements OnInit {
       this.paymentInfo.receiptEmail = purchase.customer.email;
 
       console.log(`totalPrice ${this.cartSummary.totalPrice} -> ${this.paymentInfo.amount}`);
-      
+
       this.disableSubmit(true);
 
       this.checkoutService.createPaymentIntent(this.paymentInfo).subscribe((paymentIntentResp) => {
@@ -530,7 +529,7 @@ export class CheckoutComponent implements OnInit {
   resetCart() {
     this.cartService.emptyCart();
     this.checkoutFormGroup.reset();
-    this.router.navigateByUrl(appRouteUrl(PRODUCTS_ROUTE));
+    this.router.navigateByUrl(appRouteUrl(PRODUCTS_ROUTE)).then(r => noop());
   }
 
 
@@ -538,7 +537,7 @@ export class CheckoutComponent implements OnInit {
     let ctrlValue = this.checkoutFormGroup.controls[formGroupName].value;
     const subdivision: Subdivision = JSON.parse(JSON.stringify(ctrlValue.state));
     const country: Country = JSON.parse(JSON.stringify(ctrlValue.country));
-    
+
     let address: Address = new Address();
     address.street = ctrlValue.street;
     address.city = ctrlValue.city;
@@ -552,7 +551,7 @@ export class CheckoutComponent implements OnInit {
 
 
   disableSubmit(disableSubmit: boolean) {
-    var button: HTMLElement | null = document.getElementById('purchase_button');
+    // var button: HTMLElement | null = document.getElementById('purchase_button');
 
     // disable submit button if form or card is not valid
     this.isDisabled = disableSubmit || !this.checkoutFormGroup.valid || !this.cardComplete;

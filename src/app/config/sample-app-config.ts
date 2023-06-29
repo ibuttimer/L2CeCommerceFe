@@ -5,6 +5,10 @@ export default {
         redirectUri: window.location.origin + "/login/callback",
         scopes: ["openid", "profile", "email"]
     },
+    widget: {
+      // set to 'false' to use new Okta Identity Engine
+      USE_CLASSIC_ENGINE: "true",
+    },
     app: {
         // set to 'local' or 'session'
         storage: "local",
