@@ -32,4 +32,7 @@ services:
         value:
       - key: SSL_ENABLED # Imported from Heroku app
         sync: false
+      - key: STRIPE_API_KEY # Imported from Heroku app
+        sync: false
+
 

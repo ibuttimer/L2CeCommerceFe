@@ -35,7 +35,9 @@ try {
     // set environment variable SKIP_CFG to non-falsy value to skip config update
     if (!process.env.SKIP_CFG) {
       const results = replace.sync(options);
-      console.log('Replacement results:', results);
+      console.log('Replacement results for app-config:', results);
+    } else {
+      console.log('app-config replacement skipped');
     }
 }
 catch (error) {

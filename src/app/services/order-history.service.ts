@@ -15,7 +15,7 @@ export class OrderHistoryService extends BaseService {
 
   private baseUrl = `${this.apiUrl}/orders`
 
-  constructor(protected httpClient: HttpClient) {
+  constructor(protected override httpClient: HttpClient) {
     super(httpClient);
   }
 
@@ -23,7 +23,7 @@ export class OrderHistoryService extends BaseService {
   /**
    * Get a list of order history
    * @param {Observable<GetRespOrderHistory>} response   Response
-   * @return {Observable<OrderHistory[]>} 
+   * @return {Observable<OrderHistory[]>}
    */
    private getOrderHistoryFromResponse(response: Observable<GetRespOrderHistory | GetRespOrderHistoryPaginated>): Observable<OrderHistory[]> {
     return response.pipe(
@@ -38,9 +38,9 @@ export class OrderHistoryService extends BaseService {
    * @param {number} pageSize       page size
    * @param {string} query          query name
    * @param {number | string} param query parameter
-   * @return {Observable<GetRespOrderHistoryPaginated>} 
+   * @return {Observable<GetRespOrderHistoryPaginated>}
    */
-   private getPaginatedOrderHistoryList(url: string, page: number, pageSize: number, 
+   private getPaginatedOrderHistoryList(url: string, page: number, pageSize: number,
                                   query: string, param: number | string): Observable<GetRespOrderHistoryPaginated> {
 
     return this.getPaginatedEntityList<GetRespOrderHistoryPaginated>(url, page, pageSize, query, param);
@@ -49,7 +49,7 @@ export class OrderHistoryService extends BaseService {
   /**
    * Get a order history list response
    * @param {string} searchUrl   Url to call
-   * @return {Observable<GetRespOrderHistory>} 
+   * @return {Observable<GetRespOrderHistory>}
    */
    private getOrderHistoryResponse(searchUrl: string): Observable<GetRespOrderHistory> {
     return this.getEntitiesResponse<GetRespOrderHistory>(searchUrl);
@@ -58,7 +58,7 @@ export class OrderHistoryService extends BaseService {
   /**
    * Get order history for a country
    * @param {string} email   email to get order history for
-   * @return {Observable<OrderHistory[]>} 
+   * @return {Observable<OrderHistory[]>}
    */
    getEmailOrderHistory(email: string): Observable<OrderHistory[]> {
     return this.getOrderHistoryFromResponse(
@@ -70,14 +70,14 @@ export class OrderHistoryService extends BaseService {
   /**
    * Get an order
    * @param {number} id   Id of order to get
-   * @return {Observable<OrderHistory>} 
+   * @return {Observable<OrderHistory>}
    */
    getOrderHistory(id: number): Observable<OrderHistory> {
     return this.getEntity<OrderHistory>(this.baseUrl, id);
   }
 
 
-  get securedEndpoints(): string[] {
+  override get securedEndpoints(): string[] {
     return super.securedEndpoints.concat([
       this.baseUrl
     ]);

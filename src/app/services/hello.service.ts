@@ -11,13 +11,13 @@ export class HelloService extends BaseService {
 
   private baseUrl = `${this.apiUrl}/hello`
 
-  constructor(protected httpClient: HttpClient) {
+  constructor(protected override httpClient: HttpClient) {
     super(httpClient);
   }
 
   /**
    * Say hello to server
-   * @return {Observable<Object>} 
+   * @return {Observable<Object>}
    */
    sayHello(): Observable<String> {
     return this.httpClient.get<GetRespHello>(this.baseUrl).pipe(

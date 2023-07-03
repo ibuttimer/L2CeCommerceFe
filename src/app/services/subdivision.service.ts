@@ -14,13 +14,13 @@ export class SubdivisionService extends BaseService {
   private baseUrl = `${this.apiUrl}/subdivisions`;
   private sort = 'sort=name,asc';
 
-  constructor(protected httpClient: HttpClient) {
+  constructor(protected override httpClient: HttpClient) {
     super(httpClient);
   }
 
   /**
    * Get a list of subdivisions
-   * @return {Observable<Subdivision[]>} 
+   * @return {Observable<Subdivision[]>}
    */
    getSubdivisionsList(): Observable<Subdivision[]> {
     return this.getSubdivisionsFromResponse(
@@ -31,7 +31,7 @@ export class SubdivisionService extends BaseService {
   /**
    * Get a list of subdivisions
    * @param {Observable<GetRespSubdivisions>} response   Response
-   * @return {Observable<Subdivision[]>} 
+   * @return {Observable<Subdivision[]>}
    */
    private getSubdivisionsFromResponse(response: Observable<GetRespSubdivisions | GetRespSubdivisionsPaginated>): Observable<Subdivision[]> {
     return response.pipe(
@@ -46,9 +46,9 @@ export class SubdivisionService extends BaseService {
    * @param {number} pageSize       page size
    * @param {string} query          query name
    * @param {number | string} param query parameter
-   * @return {Observable<GetRespSubdivisionsPaginated>} 
+   * @return {Observable<GetRespSubdivisionsPaginated>}
    */
-   private getPaginatedSubdivisionsList(url: string, page: number, pageSize: number, 
+   private getPaginatedSubdivisionsList(url: string, page: number, pageSize: number,
                                   query: string, param: number | string): Observable<GetRespSubdivisionsPaginated> {
 
     return this.getPaginatedEntityList<GetRespSubdivisionsPaginated>(url, page, pageSize, query, param);
@@ -57,7 +57,7 @@ export class SubdivisionService extends BaseService {
   /**
    * Get a subdivisions list response
    * @param {string} searchUrl   Url to call
-   * @return {Observable<GetRespSubdivisions>} 
+   * @return {Observable<GetRespSubdivisions>}
    */
    private getSubdivisionsResponse(searchUrl: string): Observable<GetRespSubdivisions> {
     return this.getEntitiesResponse<GetRespSubdivisions>(searchUrl);
@@ -66,7 +66,7 @@ export class SubdivisionService extends BaseService {
   /**
    * Get a subdivision
    * @param {number} id   Id of subdivision to get
-   * @return {Observable<Subdivision>} 
+   * @return {Observable<Subdivision>}
    */
    getSubdivision(id: number): Observable<Subdivision> {
     return this.getEntity<Subdivision>(this.baseUrl, id);
@@ -75,7 +75,7 @@ export class SubdivisionService extends BaseService {
   /**
    * Get subdivisions for a country
    * @param {string} code   Code of country to get subdivisions for
-   * @return {Observable<Subdivision[]>} 
+   * @return {Observable<Subdivision[]>}
    */
    getCountrySubdivisions(code: string): Observable<Subdivision[]> {
     return this.getSubdivisionsFromResponse(

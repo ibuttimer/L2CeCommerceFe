@@ -13,13 +13,13 @@ export class CountryService extends BaseService {
 
   private baseUrl = `${this.apiUrl}/countries`
 
-  constructor(protected httpClient: HttpClient) {
+  constructor(protected override httpClient: HttpClient) {
     super(httpClient);
   }
 
   /**
    * Get a list of countries
-   * @return {Observable<Country[]>} 
+   * @return {Observable<Country[]>}
    */
    getCountriesList(): Observable<Country[]> {
     return this.getCountriesFromResponse(
@@ -30,7 +30,7 @@ export class CountryService extends BaseService {
   /**
    * Get a list of countries
    * @param {Observable<GetRespCountries>} response   Response
-   * @return {Observable<Country[]>} 
+   * @return {Observable<Country[]>}
    */
    private getCountriesFromResponse(response: Observable<GetRespCountries>): Observable<Country[]> {
     return response.pipe(
@@ -45,9 +45,9 @@ export class CountryService extends BaseService {
    * @param {number} pageSize       page size
    * @param {string} query          query name
    * @param {number | string} param query parameter
-   * @return {Observable<GetRespCountriesPaginated>} 
+   * @return {Observable<GetRespCountriesPaginated>}
    */
-   private getPaginatedCountryList(url: string, page: number, pageSize: number, 
+   private getPaginatedCountryList(url: string, page: number, pageSize: number,
                                   query: string, param: number | string): Observable<GetRespCountriesPaginated> {
 
     return this.getPaginatedEntityList<GetRespCountriesPaginated>(url, page, pageSize, query, param);
@@ -56,7 +56,7 @@ export class CountryService extends BaseService {
   /**
    * Get a countries list response
    * @param {string} searchUrl   Url to call
-   * @return {Observable<GetRespCountries>} 
+   * @return {Observable<GetRespCountries>}
    */
    private getCountriesResponse(searchUrl: string): Observable<GetRespCountries> {
     return this.getEntitiesResponse<GetRespCountries>(searchUrl);
@@ -66,7 +66,7 @@ export class CountryService extends BaseService {
   /**
    * Get a country
    * @param {number} id   Id of country to get
-   * @return {Observable<Country>} 
+   * @return {Observable<Country>}
    */
    getCountry(id: number): Observable<Country> {
     return this.getEntity<Country>(this.baseUrl, id);
