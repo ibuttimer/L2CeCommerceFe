@@ -32,8 +32,11 @@ const options = {
 fs.copyFileSync(template_file, options.files);
 
 try {
-    const results = replace.sync(options);
-    console.log('Replacement results:', results);
+    // set environment variable SKIP_CFG to non-falsy value to skip config update
+    if (!process.env.SKIP_CFG) {
+      const results = replace.sync(options);
+      console.log('Replacement results:', results);
+    }
 }
 catch (error) {
     console.error('Error occurred:', error);
