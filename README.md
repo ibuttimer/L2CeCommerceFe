@@ -24,14 +24,22 @@ The application consists of:
   * [PostgreSQL](https://www.postgresql.org/)
 * [Angular](https://angular.io/) frontend application
 
-### Heroku
+### Deployment
 
-On Heroku the application is deployed in a [Node.js](https://nodejs.org/) environment, and includes a minimalist [Express](https://expressjs.com/) server loosely based on [How to Deploy Angular Application to Heroku](https://itnext.io/how-to-deploy-angular-application-to-heroku-1d56e09c5147)
+The application may be deployed in a [Node.js](https://nodejs.org/) environment, and includes a minimalist [Express](https://expressjs.com/) server loosely based on [How to Deploy Angular Application to Heroku](https://itnext.io/how-to-deploy-angular-application-to-heroku-1d56e09c5147)
+
+#### Heroku
+
+See [Getting Started on Heroku with Node.js](https://devcenter.heroku.com/articles/getting-started-with-nodejs?singlepage=true)
+
+#### Render
+
+Render provide a guide to migrate from Heroku [Migrate from Heroku to Render](https://render.com/docs/migrate-from-heroku)
 
 
 ### Demonstration
 
-A demonstration implementation is hosted on Heroku at https://l2cecommercefe.herokuapp.com/.
+A demonstration implementation is hosted on Render at https://l2cecommercefe.onrender.com.
 
 > **Note:** This application is not a retail site, *do not enter* valid payment card or personal details. Please use [Stripe test card numbers](https://stripe.com/docs/testing#cards).
 
@@ -78,7 +86,7 @@ Update `app-config.ts` as follows:
 | publishableKey | *Publishable key* from the *API keys* in the Stripe developer dashboard.<br/> E.g. to use the *Test Mode Standard keys* goto https://dashboard.stripe.com/test/apikeys and copy the *Publishable key*.                                                                                                                                                                              |          |
 
 
-##### Heroku
+##### Hosted environment
 
 The required configuration file `app-config.ts` will be created by the [heroku-prebuild](https://devcenter.heroku.com/articles/nodejs-support#heroku-specific-build-steps) build step.
 Set the following environmental variables:
@@ -93,17 +101,23 @@ Set the following environmental variables:
 | STRIPE_API_KEY  | *Publishable key* from the *API keys* in the Stripe developer dashboard.<br/> E.g. to use the *Test Mode Standard keys* goto https://dashboard.stripe.com/test/apikeys and copy the *Publishable key*.                                                                                                                                 |         |
 |                 |                                                                                                                                                                                                                                                                                                                                        |         |
 | DEBUG           | Log output to enable, e.g. `app,express:*` will enable all server related output.<br/> See [Debugging Express](https://expressjs.com/en/guide/debugging.html) and [debug](https://www.npmjs.com/package/debug).                                                                                                                        |         |
-| DOMAIN          | Domain application is running in, e.g. `l2cecommercefe.herokuapp.com` or `localhost`.                                                                                                                                                                                                                                                  |         |
+| DOMAIN          | Domain application is running in, e.g. `l2cecommercefe.onrender.com` or `localhost`.                                                                                                                                                                                                                                                   |         |
 | PORT            | Port to serve application from in Heroku. Default `8080`                                                                                                                                                                                                                                                                               |         |
-| ALLOWED_ORIGINS | Allowed origins for CORS configuration. Comma-separated list of domains, e.g. `https://dev-account.okta.com,https://backend.herokuapp.com`                                                                                                                                                                                             |         |
+| ALLOWED_ORIGINS | Allowed origins for CORS configuration. Comma-separated list of domains, e.g. `https://<dev-account>.okta.com,https://<backend>.onrender.com`                                                                                                                                                                                          |         |
 | SSL_ENABLED     | Set to ``true`` to enable TLS/SSL, otherwise ``false``. Default ``true``.                                                                                                                                                                                                                                                              |         |
 | SSL_CRT         | Location of the Security Certificate generated in [Generate key and self-signed certificate](#generate-key-and-self-signed-certificate) relative to the project root. E.g. `"./ssl-localhost/localhost.crt"`                                                                                                                           |         |
 | SSL_KEY         | Location of the Private key generated in [Generate key and self-signed certificate](#generate-key-and-self-signed-certificate) relative to the project root. E.g. `"./ssl-localhost/localhost.key"`                                                                                                                                    |         |
 
 
-#### Development server
+#### Server
+
+##### Development
 
 Run `npm run start_ng` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+##### Production
+
+Run `npm start` to start the [Express](https://expressjs.com/) server.
 
 #### Code scaffolding
 

@@ -52,3 +52,4 @@ Thumbs.db
 src/app/config/app-config.ts
 ssl-localhost/localhost.crt
 ssl-localhost/localhost.key
+no-commit-*
