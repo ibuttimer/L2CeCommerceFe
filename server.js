@@ -54,25 +54,25 @@ app.use(express.static(dist_dir));
 log('serving from %s', dist_dir);
 
 // enable CORS
-var corsOptions = {
-    /* Dynamic origin config as per https://www.npmjs.com/package/cors#configuring-cors-w-dynamic-origin.
-       The value passed as 'origin' is 'request.headers.origin' and this may be null in a number of cases
-       (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin), so allow all for now.
-     */
-    // origin: function (origin, callback) {
-    //     var ok = (allowedOrigins.indexOf(origin) > -1);
+const corsOptions = {
+  /* Dynamic origin config as per https://www.npmjs.com/package/cors#configuring-cors-w-dynamic-origin.
+     The value passed as 'origin' is 'request.headers.origin' and this may be null in a number of cases
+     (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin), so allow all for now.
+   */
+  // origin: function (origin, callback) {
+  //     var ok = (allowedOrigins.indexOf(origin) > -1);
 
-    //     log('cors %s %o', origin, ok);
+  //     log('cors %s %o', origin, ok);
 
-    //     if (ok) {
-    //       callback(null, true)
-    //     } else {
-    //       callback(new Error('Not allowed by CORS'))
-    //     }
-    //   },
-    origin: '*',
-    methods: 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-    allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization'
+  //     if (ok) {
+  //       callback(null, true)
+  //     } else {
+  //       callback(new Error('Not allowed by CORS'))
+  //     }
+  //   },
+  origin: '*',
+  methods: 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+  allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization'
 };
 
 app.get('/*', cors(corsOptions), function(req, res) {

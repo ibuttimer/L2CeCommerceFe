@@ -12,7 +12,9 @@ const config_file = join(config_dir, 'app-config.ts').replaceAll("\\", "/");
 const template_file = join(config_dir, 'sample-app-config.ts').replaceAll("\\", "/");
 
 const options = {
-  files: config_file,
+  files: [
+    config_file
+  ],
   from: [
     /<Client ID of okta application>/g,
     /<okta domain>/g,
@@ -29,16 +31,31 @@ const options = {
     process.env.HOST_PROTOCOL,
     process.env.STRIPE_API_KEY
     ],
+  countMatches: true,
 };
 
 // make copy of template
-fs.copyFileSync(template_file, options.files);
+fs.copyFileSync(template_file, config_file);
+
+try {
+  for (let f of options.files) {
+    const data = fs.readFileSync(f, 'utf8');
+    console.log(data);
+  }
+} catch (err) {
+  console.error(err);
+}
 
 try {
     // set environment variable SKIP_CFG to non-falsy value to skip config update
     if (!process.env.SKIP_CFG) {
       const results = replace.sync(options);
-      console.log('Replacement results for app-config:', results);
+      console.log(
+        "[Build] Replacement results ",
+        results.map(
+          (f) => `${f.file}: ${f.hasChanged}/${f.numReplacements}/${f.numMatches}`
+        )
+      );
     } else {
       console.log('app-config replacement skipped');
     }
