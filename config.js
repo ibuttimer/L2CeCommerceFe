@@ -4,6 +4,7 @@
 import replace from 'replace-in-file';
 import fs from 'fs';
 import { join } from 'path';
+import { exec } from 'child_process';
 
 const config_dir = 'src/app/config'
 // replace windows path separator with '/'
@@ -45,6 +46,13 @@ try {
 } catch (err) {
   console.error(err);
 }
+exec('npm list', (error, stdout, stderr) => {
+  if (error) {
+    console.error(`exec error: ${error}`);
+    return;
+  }
+  console.log(`stdout: ${stdout}`);
+});
 
 try {
     // set environment variable SKIP_CFG to non-falsy value to skip config update
