@@ -6,8 +6,11 @@ import fs from 'fs';
 import { join } from 'path';
 
 const config_dir = 'src/app/config'
-const config_file = join(config_dir, 'app-config.ts');
-const template_file = join(config_dir, 'sample-app-config.ts');
+// replace windows path separator with '/'
+// https://github.com/adamreisnz/replace-in-file/issues/165
+const config_file = join(config_dir, 'app-config.ts').replaceAll("\\", "/");
+const template_file = join(config_dir, 'sample-app-config.ts').replaceAll("\\", "/");
+
 const options = {
   files: config_file,
   from: [
