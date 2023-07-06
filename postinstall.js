@@ -12,10 +12,10 @@ const commands = [
 for (let cmd of commands) {
   exec(cmd, (error, stdout, stderr) => {
     if (error) {
-      console.error(`exec error: ${error}`);
+      console.error(`${cmd} exec error: ${error}`);
       return;
     }
-    console.log(`stdout: ${stdout}`);
+    console.log(`${cmd} stdout: ${stdout}`);
   });
 }
 
