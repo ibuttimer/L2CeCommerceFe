@@ -10,6 +10,7 @@ const commands = [
 ]
 
 for (let cmd of commands) {
+  console.log(`postinstall: ${cmd}`);
   exec(cmd, (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
