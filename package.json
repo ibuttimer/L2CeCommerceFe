@@ -8,7 +8,6 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "postinstall": "ng run l2cecommercefe:collect-vars",
     "heroku-postbuild": "ng build --configuration production"
   },
   "private": true,
