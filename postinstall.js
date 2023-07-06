@@ -2,6 +2,8 @@
  * Script to handle post-installation tasks.
  */
 import { exec } from 'child_process';
+import fs from 'fs';
+import { join } from 'path';
 
 
 const commands = [
@@ -17,7 +19,20 @@ for (let cmd of commands) {
       return;
     }
     console.log(`${cmd} stdout: ${stdout}`);
+    if (cmd.startsWith('ng')) {
+      try {
+        for (let f of [
+          'environment.ts',
+          'environment.prod.ts',
+        ]) {
+          const data = fs.readFileSync(join('src/environments', f), 'utf8');
+          console.log(`file: ${f} -----------`);
+          console.log(data);
+          console.log(`----------------------`);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
   });
 }
-
-
