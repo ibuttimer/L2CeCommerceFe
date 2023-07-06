@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable} from 'rxjs';
 import { ServiceInterface } from './service-interface';
 
-import { environment } from '../../environments/environment';
+import appConfig from "../config/app-config";
 
 export const ALL_ITEMS: number = 0;
 export const MAX_ITEMS: number = 2_147_483_647;
@@ -18,7 +18,7 @@ export const NO_KEYWORD = "";
 })
 export class BaseService implements ServiceInterface {
 
-  protected apiUrl = environment.apiUrl;
+  protected apiUrl = appConfig.app.apiUrl;
 
   constructor(protected httpClient: HttpClient) { }
 

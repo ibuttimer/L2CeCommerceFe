@@ -49,7 +49,7 @@ testem.log
 Thumbs.db
 
 # App files
-src/app/config/app-config.ts
+src/environments/environment.ts
 ssl-localhost/localhost.crt
 ssl-localhost/localhost.key
-no-commit-*
+nc-*

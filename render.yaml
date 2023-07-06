@@ -16,15 +16,17 @@ services:
         sync: false
       - key: DOMAIN # Imported from Heroku app
         sync: false
-      - key: HOST_ADDR # Imported from Heroku app
+      - key: L2C_HOST_ADDR # Imported from Heroku app
         sync: false
-      - key: HOST_PORT # Imported from Heroku app
+      - key: L2C_HOST_PORT # Imported from Heroku app
         sync: false
-      - key: HOST_PROTOCOL # Imported from Heroku app
+      - key: L2C_HOST_PROTOCOL # Imported from Heroku app
         sync: false
-      - key: OKTA_CLIENT_ID # Imported from Heroku app
+      - key: L2C_API_BASE_PATH
         sync: false
-      - key: OKTA_DOMAIN # Imported from Heroku app
+      - key: L2C_OKTA_CLIENT_ID # Imported from Heroku app
+        sync: false
+      - key: L2C_OKTA_DOMAIN # Imported from Heroku app
         sync: false
       - key: PORT # Imported from Heroku app
         sync: false
@@ -32,7 +34,7 @@ services:
         value:
       - key: SSL_ENABLED # Imported from Heroku app
         sync: false
-      - key: STRIPE_API_KEY # Imported from Heroku app
+      - key: L2C_STRIPE_API_KEY # Imported from Heroku app
         sync: false
 
 
