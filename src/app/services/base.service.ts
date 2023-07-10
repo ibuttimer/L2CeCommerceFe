@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable} from 'rxjs';
 import { ServiceInterface } from './service-interface';
 
-import { environment } from '../../environments/environment';
+import appConfig from "../config/app-config";
 
 export const ALL_ITEMS: number = 0;
 export const MAX_ITEMS: number = 2_147_483_647;
@@ -18,24 +18,25 @@ export const NO_KEYWORD = "";
 })
 export class BaseService implements ServiceInterface {
 
-  protected apiUrl = environment.apiUrl;
+  protected apiUrl = appConfig.app.apiUrl;
 
   constructor(protected httpClient: HttpClient) { }
 
   /**
    * Get an entity
+   * @param {string} baseUrl  base url
    * @param {number} id   Id of entity to get
-   * @return {Observable<Product>} 
+   * @return {Observable<Product>}
    */
   getEntity<Type>(baseUrl: string, id: number): Observable<Type> {
     const url = `${baseUrl}/${id}`;
     return this.httpClient.get<Type>(url);
   }
-  
+
   /**
    * Get a entity list response
    * @param {string} searchUrl   Url to call
-   * @return {Observable<Type>} 
+   * @return {Observable<Type>}
    */
    getEntitiesResponse<Type>(searchUrl: string): Observable<Type> {
     return this.httpClient.get<Type>(searchUrl);
@@ -48,9 +49,9 @@ export class BaseService implements ServiceInterface {
    * @param {number} pageSize       page size
    * @param {string} query          query name
    * @param {number | string} param query parameter
-   * @return {Observable<Type>} 
+   * @return {Observable<Type>}
    */
-   getPaginatedEntityList<Type>(url: string, page: number, pageSize: number, 
+   getPaginatedEntityList<Type>(url: string, page: number, pageSize: number,
                                   query: string, param: number | string): Observable<Type> {
     let requestUrl;
     let conjunction = '&';

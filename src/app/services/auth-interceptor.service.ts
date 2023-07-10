@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpRequest, HttpInterceptor } from '@angular/common/http';
 import { OktaAuth } from '@okta/okta-auth-js';
 import { OKTA_AUTH } from '@okta/okta-angular';
-import { from, Observable } from 'rxjs'
+import { from, lastValueFrom, Observable} from 'rxjs'
 import { OrderHistoryService } from './order-history.service';
 
 @Injectable({
@@ -33,8 +33,8 @@ export class AuthInterceptorService implements HttpInterceptor {
       });
     }
 
-    return next.handle(req).toPromise();
+    return lastValueFrom(next.handle(req));
   }
 
-  
+
 }

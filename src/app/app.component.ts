@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { environment } from '../environments/environment';
+import appConfig from "./config/app-config";
 import { HelloService } from './services/hello.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class AppComponent implements OnInit {
 
   constructor(private helloService: HelloService) {
 
-    console.log('host %s  production %o', environment.apiUrl, environment.production);
+    console.log('host %s  production %o', appConfig.app.apiUrl, environment.production);
   }
 
   ngOnInit(): void {

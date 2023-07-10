@@ -17,14 +17,14 @@ export class ProductService extends BaseService {
   private baseUrl = `${this.apiUrl}/products`
   private categoryUrl = `${this.apiUrl}/product-category`
 
-  constructor(protected httpClient: HttpClient) {
+  constructor(protected override httpClient: HttpClient) {
     super(httpClient);
   }
 
   /**
    * Get a list of products
    * @param {number} categoryId   Id of category of products to retrieve
-   * @return {Observable<Product[]>} 
+   * @return {Observable<Product[]>}
    */
    getProductList(categoryId: number): Observable<Product[]> {
     return this.getProductsFromResponse(
@@ -35,7 +35,7 @@ export class ProductService extends BaseService {
   /**
    * Get a list of products
    * @param {Observable<GetRespProducts>} response   Response
-   * @return {Observable<Product[]>} 
+   * @return {Observable<Product[]>}
    */
    private getProductsFromResponse(response: Observable<GetRespProducts>): Observable<Product[]> {
     return response.pipe(
@@ -48,7 +48,7 @@ export class ProductService extends BaseService {
    * @param {number} page         page number to retrieve
    * @param {number} pageSize     page size
    * @param {number} categoryId   Id of category of products to retrieve
-   * @return {Observable<GetRespProducts>} 
+   * @return {Observable<GetRespProducts>}
    */
    getProductListPaginate(page: number, pageSize: number, categoryId: number): Observable<GetRespProducts> {
 
@@ -70,9 +70,9 @@ export class ProductService extends BaseService {
    * @param {number} pageSize       page size
    * @param {string} query          query name
    * @param {number | string} param query parameter
-   * @return {Observable<GetRespProducts>} 
+   * @return {Observable<GetRespProducts>}
    */
-   private getPaginatedProductList(url: string, page: number, pageSize: number, 
+   private getPaginatedProductList(url: string, page: number, pageSize: number,
                                   query: string, param: number | string): Observable<GetRespProducts> {
 
     return this.getPaginatedEntityList<GetRespProducts>(url, page, pageSize, query, param);
@@ -80,7 +80,7 @@ export class ProductService extends BaseService {
 
   /**
    * Get a list of product categories
-   * @return {Observable<ProductCategory[]>} 
+   * @return {Observable<ProductCategory[]>}
    */
    getProductCategories(): Observable<ProductCategory[]> {
 
@@ -93,7 +93,7 @@ export class ProductService extends BaseService {
   /**
    * Search products
    * @param {string} keyword   keyword from title of products to retrieve
-   * @return {Observable<Product[]>} 
+   * @return {Observable<Product[]>}
    */
    searchProducts(keyword: string): Observable<Product[]> {
     return this.getProductsFromResponse(
@@ -106,7 +106,7 @@ export class ProductService extends BaseService {
    * @param {number} page         page number to retrieve
    * @param {number} pageSize     page size
    * @param {string} keyword   keyword from title of products to retrieve
-   * @return {Observable<GetRespProducts>} 
+   * @return {Observable<GetRespProducts>}
    */
    searchProductsPaginate(page: number, pageSize: number, keyword: string): Observable<GetRespProducts> {
     let searchUrl;
@@ -122,7 +122,7 @@ export class ProductService extends BaseService {
   /**
    * Get a products list response
    * @param {string} searchUrl   Url to call
-   * @return {Observable<GetRespProducts>} 
+   * @return {Observable<GetRespProducts>}
    */
   private getProductsResponse(searchUrl: string): Observable<GetRespProducts> {
     return this.getEntitiesResponse<GetRespProducts>(searchUrl);
@@ -132,7 +132,7 @@ export class ProductService extends BaseService {
   /**
    * Get a product
    * @param {number} id   Id of product to get
-   * @return {Observable<Product>} 
+   * @return {Observable<Product>}
    */
    getProduct(id: number): Observable<Product> {
     return this.getEntity<Product>(this.baseUrl, id);

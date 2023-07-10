@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { OktaAuth } from '@okta/okta-auth-js';
 import { OKTA_AUTH } from '@okta/okta-angular';
-import * as OktaSignIn from '@okta/okta-signin-widget';
+import { OktaSignIn } from '@okta/okta-signin-widget';
 
 import appConfig from '../../config/app-config';
 
@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
 
   oktaSignIn: any;
 
-  constructor(@Inject(OKTA_AUTH) private oktaAuthService: OktaAuth) { 
+  constructor(@Inject(OKTA_AUTH) private oktaAuthService: OktaAuth) {
     this.oktaSignIn = new OktaSignIn({
       logo: 'assets/images/logo.png',
       features: {
@@ -27,7 +27,9 @@ export class LoginComponent implements OnInit {
         pkce: true,   // proof key for code exchange
         issuer: appConfig.oidc.issuer,
         scopes: appConfig.oidc.scopes
-      }
+      },
+      useInteractionCodeFlow: appConfig.widget.USE_CLASSIC_ENGINE !== 'true',
+      useClassicEngine: appConfig.widget.USE_CLASSIC_ENGINE === 'true'
     });
   }
 

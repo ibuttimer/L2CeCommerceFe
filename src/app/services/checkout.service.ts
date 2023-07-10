@@ -14,7 +14,7 @@ export class CheckoutService  extends BaseService {
   private purchaseUrl = `${this.baseUrl}/purchase`
   private paymentIntentUrl = `${this.baseUrl}/payment-intent`
 
-  constructor(protected httpClient: HttpClient) {
+  constructor(protected override httpClient: HttpClient) {
     super(httpClient);
   }
 
