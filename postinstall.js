@@ -1,25 +1,26 @@
 /*
  * Script to handle post-installation tasks.
  */
-import { exec } from 'child_process';
+import { spawn } from 'child_process';
 import fs from 'fs';
 import { join } from 'path';
 
 
 const commands = [
-  'npm list --all',                       // display dependency tree
-  'ng run l2cecommercefe:collect-vars',   // update environment
+  // ['npm', ['list', '--all']],                       // display dependency tree
+  ['ng', ['run',  'l2cecommercefe:collect-vars']],  // update environment
 ]
 
 for (let cmd of commands) {
   console.log(`postinstall: ${cmd}`);
-  exec(cmd, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`${cmd} exec error: ${error}`);
-      return;
-    }
-    console.log(`${cmd} stdout: ${stdout}`);
-    if (cmd.startsWith('ng')) {
+
+  const cmd_ps = spawn(cmd[0], cmd[1], {
+    env: process.env,
+    shell: true
+  });
+  cmd_ps.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+    if (cmd[0] === 'ng') {
       try {
         for (let f of [
           'environment.ts',
@@ -27,10 +28,10 @@ for (let cmd of commands) {
         ]) {
           const filepath = join('src/environments', f);
           fs.accessSync(filepath, fs.constants.R_OK | fs.constants.W_OK)
-          console.log(`file: ${f} can read/write`);
+          console.log(`file: ${filepath} can read/write`);
 
           const data = fs.readFileSync(filepath, 'utf8');
-          console.log(`file: ${f} -----------`);
+          console.log(`file: ${filepath} -----------`);
           console.log(data);
           console.log(`----------------------`);
         }
@@ -38,5 +39,13 @@ for (let cmd of commands) {
         console.error(err);
       }
     }
+  });
+
+  cmd_ps.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+  });
+
+  cmd_ps.on('close', (code) => {
+    console.log(`${cmd[0]} exited with code ${code}`);
   });
 }
