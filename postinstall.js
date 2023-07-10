@@ -20,6 +20,14 @@ for (let cmd of commands) {
   });
   cmd_ps.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
+  });
+
+  cmd_ps.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+  });
+
+  cmd_ps.on('close', (code) => {
+    console.log(`${cmd[0]} exited with code ${code}`);
     if (cmd[0] === 'ng') {
       try {
         for (let f of [
@@ -39,13 +47,5 @@ for (let cmd of commands) {
         console.error(err);
       }
     }
-  });
-
-  cmd_ps.stderr.on('data', (data) => {
-    console.error(`stderr: ${data}`);
-  });
-
-  cmd_ps.on('close', (code) => {
-    console.log(`${cmd[0]} exited with code ${code}`);
   });
 }
