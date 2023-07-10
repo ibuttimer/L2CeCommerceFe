@@ -18,6 +18,7 @@ for (let cmd of commands) {
     env: process.env,
     shell: true
   });
+  console.log(`env: ${process.env.L2C_HOST_ADDR} ${process.env.L2C_HOST_PORT}`);
   cmd_ps.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
   });
