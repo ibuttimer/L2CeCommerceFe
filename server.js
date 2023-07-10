@@ -8,6 +8,7 @@ import debug from 'debug';
 import https from 'https'
 import fs from 'fs'
 import cors from 'cors';
+import { spawnSync } from 'child_process';
 
 
 const log = debug('app');
@@ -37,17 +38,37 @@ const dist_dir = join(__dirname, outputPath);
 
 const app = express();
 const domain = process.env.DOMAIN || 'domain not set';
+const host = process.env.L2C_HOST_ADDR || 'host not set';
 let heroku = (domain.indexOf('heroku') >= 0);
 
 const port = process.env.PORT || "8080";  // configured port or the default Heroku port
+const hostPort = process.env.L2C_HOST_PORT || "433";  // configured port or the default https port
 const allowedOrigins = (process.env.ALLOWED_ORIGINS || '').split(",");
 const sslEnabled = String(process.env.SSL_ENABLED || 'true') === 'true';
 const sslCrt = process.env.SSL_CRT || 'security certificate not specified';
 const sslKey = process.env.SSL_KEY || 'private key not specified';
 
 log('config: domain=%s heroku=%o port=%s', domain, heroku, port);
+log('config: host=%s port=%s', host, hostPort);
 log('config: allowedOrigins=%s', allowedOrigins);
 log('config: ssl=%o crt=%s key=%s', sslEnabled, sslCrt, sslKey);
+
+/* configured environment variables are not available during build phase on Render,
+   so update environment config file before app boot */
+const commands = [
+  ['ng', ['run',  'l2cecommercefe:collect-vars']],  // update environment
+]
+
+for (let cmd of commands) {
+  const cmd_ps = spawnSync(cmd[0], cmd[1], {
+    env: process.env,
+    shell: true
+  });
+  log(`${cmd[0]} exited with code ${cmd_ps.status}`);
+  log(`stdout: ${cmd_ps.stdout}`);
+  log(`stderr: ${cmd_ps.stderr}`);
+}
+
 
 // Serve only the static files from the dist directory
 app.use(express.static(dist_dir));
