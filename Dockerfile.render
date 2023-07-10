@@ -18,6 +18,13 @@ FROM ghcr.io/renderinc/heroku-app-builder:${HEROKU_STACK} AS builder
 
 # ARG MY_BUILD_TIME_ENV_VAR
 # ARG DATABASE_URL
+ARG L2C_HOST_ADDR=host
+ARG L2C_HOST_PORT=443
+ARG L2C_HOST_PROTOCOL=https
+ARG L2C_API_BASE_PATH="/api"
+ARG L2C_OKTA_CLIENT_ID=okta_client_id
+ARG L2C_OKTA_DOMAIN=okta_domain
+ARG L2C_STRIPE_API_KEY=stripe_api_key
 
 # The FROM statement above refers to an image with the base buildpacks already
 # in place. We then run the apply-buildpacks.py script here because, unlike our
