@@ -25,7 +25,11 @@ for (let cmd of commands) {
           'environment.ts',
           'environment.prod.ts',
         ]) {
-          const data = fs.readFileSync(join('src/environments', f), 'utf8');
+          const filepath = join('src/environments', f);
+          fs.accessSync(filepath, fs.constants.R_OK | fs.constants.W_OK)
+          console.log(`file: ${f} can read/write`);
+
+          const data = fs.readFileSync(filepath, 'utf8');
           console.log(`file: ${f} -----------`);
           console.log(data);
           console.log(`----------------------`);
